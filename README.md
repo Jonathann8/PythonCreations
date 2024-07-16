@@ -1,2 +1,3 @@
-# PrimeirosProjetos
- Primeiro repositorio versionado
+# Projetos em Python
+ 
+ Repósitorio de alguns dos meus projetos pessoais. 
