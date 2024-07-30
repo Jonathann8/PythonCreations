@@ -46,6 +46,7 @@ def exibir_resultados(galera, soma):
                 print(colored(f'{k} = {v}; ', 'blue'), end='')
             print()
     print(colored('<< ENCERRADO >>', 'green'))
+    print(f'Obrigado e volte sempre!!!')
 
 def main():
     galera = []
