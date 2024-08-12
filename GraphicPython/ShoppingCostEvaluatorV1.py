@@ -2,10 +2,10 @@ import tkinter as tk
 from tkinter import messagebox
 import time
 
-# Cores
+# Cores que escolhi 
 BACKGROUND_COLOR = "#000000"  # Preto
 TEXT_COLOR = "#00BFFF"  # Azul claro
-
+#Programa principal:
 def compute_data():
     for _ in range(3):
         output_label.config(text=output_label.cget("text") + '.')
@@ -70,7 +70,7 @@ def finalize_purchase():
 
     output_label.config(text=output, fg=total_color)
 
-# Configuração da interface gráfica
+# Aplicando a interface gráfica
 root = tk.Tk()
 root.title("App de Compra Simples")
 root.geometry("400x400")
