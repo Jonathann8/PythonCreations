@@ -1,8 +1,15 @@
 # Python 
  
- ## Repósitorio de alguns dos meus projetos pessoaisRepositório com alguns dos meus projetos pessoais desenvolvidos em Python.
+ ## Uma coleção dos meus projetos pessoais em Python. Este repositório exibe várias aplicações e scripts que desenvolvi, demonstrando minha jornada e crescimento na programação em Python.
 
 
 
-## O repositório "First Sparks" recebeu esse nome porque contém os meus primeiros códigos. Eles são mais simples, mas representam o início da minha jornada na programação.
+[EN-US]
+
+## A collection of my personal Python projects. This repository showcases various applications and scripts I’ve developed, demonstrating my journey and growth in Python programming.
+
+
+
+
+
 
