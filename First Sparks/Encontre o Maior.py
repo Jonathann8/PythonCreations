@@ -1,7 +1,7 @@
 from time import sleep
 
 def maior(* núm):
-    cont = maior = 0 
+    cont = maior = 0 #cont (contador de quantos números foram passados) e maior (armazenará o maior valor encontrado).
     print('-=' * 30)
     print('\nAnalisando os valores passados...')
     for valor in núm:
