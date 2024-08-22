@@ -176,6 +176,7 @@ class CronometroApp(App):
     def save_note(self, instance):
         note_text = self.note_input.text.strip()
         if note_text:
+            note_id = len(self.notes) + 1
             note_box = BoxLayout(orientation='horizontal', size_hint_y=None, height=40)
             note_checkbox = CheckBox(size_hint_x=None, width=40)
             note_label = Label(text=note_text, size_hint_x=None, width=240)
@@ -185,48 +186,42 @@ class CronometroApp(App):
             note_box.add_widget(note_label)
             note_box.add_widget(delete_button)
             self.notes_layout.add_widget(note_box)
-            self.notes.append((note_box, note_text))
+            self.notes.append((note_id, note_box, note_text))
             self.note_input.text = ""
 
     def delete_note(self, instance):
-        for note_box, note_text in self.notes:
+        for note_id, note_box, note_text in self.notes:
             if instance in note_box.children:
                 self.notes_layout.remove_widget(note_box)
-                self.notes.remove((note_box, note_text))
-                self.trash.append((note_box, note_text))
-                self.update_trash()
+                self.notes = [(nid, nb, nt) for nid, nb, nt in self.notes if nb != note_box]
+                self.move_to_trash(note_box, note_text)
                 break
 
-    def update_trash(self):
-        self.trash_layout.clear_widgets()
-        for trash_box, note_text in self.trash:
-            trash_box = BoxLayout(orientation='horizontal', size_hint_y=None, height=40)
-            trash_checkbox = CheckBox(size_hint_x=None, width=40)
-            trash_label = Label(text=note_text, size_hint_x=None, width=240)
-            restore_button = Button(text="Restaurar", size_hint_x=None, width=80)
-            restore_button.bind(on_press=self.restore_note)
-            delete_button = Button(text="Apagar", size_hint_x=None, width=80)
-            delete_button.bind(on_press=self.delete_from_trash)
-            trash_box.add_widget(trash_checkbox)
-            trash_box.add_widget(trash_label)
-            trash_box.add_widget(restore_button)
-            trash_box.add_widget(delete_button)
-            self.trash_layout.add_widget(trash_box)
+    def move_to_trash(self, note_box, note_text):
+        trash_box = BoxLayout(orientation='horizontal', size_hint_y=None, height=40)
+        trash_checkbox = CheckBox(size_hint_x=None, width=40)
+        trash_label = Label(text=note_text, size_hint_x=None, width=240)
+        restore_button = Button(text="Restaurar", size_hint_x=None, width=80)
+        restore_button.bind(on_press=self.restore_note)
+        delete_button = Button(text="Apagar", size_hint_x=None, width=80)
+        delete_button.bind(on_press=self.delete_from_trash)
+        trash_box.add_widget(trash_checkbox)
+        trash_box.add_widget(trash_label)
+        trash_box.add_widget(restore_button)
+        trash_box.add_widget(delete_button)
+        self.trash_layout.add_widget(trash_box)
+        self.trash.append((note_box, note_text))
 
     def restore_note(self, instance):
         for trash_box, note_text in self.trash:
             if instance in trash_box.children:
-                self.trash_layout.remove_widget(trash_box)
-                self.trash.remove((trash_box, note_text))
-                self.notes.append((trash_box, note_text))
-                self.notes_layout.add_widget(trash_box)
+                self.restore_note_instance(trash_box, note_text)
                 break
 
     def delete_from_trash(self, instance):
         for trash_box, note_text in self.trash:
             if instance in trash_box.children:
-                self.trash_layout.remove_widget(trash_box)
-                self.trash.remove((trash_box, note_text))
+                self.delete_from_trash_instance(trash_box, note_text)
                 break
 
     def empty_trash(self, instance):
@@ -234,14 +229,12 @@ class CronometroApp(App):
         self.trash.clear()
 
     def restore_selected_note(self, instance):
-        # Restores the selected note from the trash
         for trash_box, note_text in self.trash:
             if trash_box.children[0].active:
                 self.restore_note_instance(trash_box, note_text)
                 break
 
     def delete_selected_note(self, instance):
-        # Deletes the selected note from the trash
         for trash_box, note_text in self.trash:
             if trash_box.children[0].active:
                 self.delete_from_trash_instance(trash_box, note_text)
@@ -250,7 +243,7 @@ class CronometroApp(App):
     def restore_note_instance(self, trash_box, note_text):
         self.trash_layout.remove_widget(trash_box)
         self.trash.remove((trash_box, note_text))
-        self.notes.append((trash_box, note_text))
+        self.notes.append((len(self.notes) + 1, trash_box, note_text))
         self.notes_layout.add_widget(trash_box)
 
     def delete_from_trash_instance(self, trash_box, note_text):
