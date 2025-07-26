@@ -37,6 +37,13 @@ def editar_livro_por_id(id):
         if livro.get('id') == id:
             livros[indice].update(livro_alterado)
             return jsonify(livros[indice])  
-# Rodar a aplicação
+
+@app.route('/livros',methods=['POST'])
+def incluir_novo_livro():
+    novo_livro = request.get_json()
+    livros.append(novo_livro)
+
+    return jsonify(livros)
+
 if __name__ == '__main__':
     app.run(port=5000, host='localhost', debug=True)
